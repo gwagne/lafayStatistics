@@ -1,0 +1,6 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+
+    <t:textfield t:id="login" value="login"/>
+    <t:passwordfield t:id="password" value="password"/>
+
+</html>
