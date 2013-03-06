@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.gwagner.lafayStatistics</groupId>
     <artifactId>lafayStatistics</artifactId>
@@ -18,15 +19,23 @@
         <mysql-release-version>5.1.17</mysql-release-version>
         <spring-version>3.1.1.RELEASE</spring-version>
         <guava-version>12.0</guava-version>
+        <junit.version>4.11</junit.version>
         <joda-time-version>2.1</joda-time-version>
         <h2-version>1.3.166</h2-version>
+        <org.apache.maven.plugins.tomcat.version>2.0</org.apache.maven.plugins.tomcat.version>
+        <org.apache.log4j.version>1.2.16</org.apache.log4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <maven.tomcat.port>48080</maven.tomcat.port>
+        <maven.tomcat.port>8080</maven.tomcat.port>
         <lafayStatistics.config.file>/gwagner/ls.properties</lafayStatistics.config.file>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${org.apache.log4j.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-spring</artifactId>
@@ -124,7 +133,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -145,20 +154,6 @@
                 <configuration>
                     <preparationGoals>clean install</preparationGoals>
                     <arguments>-Dmaven.test.skip=true</arguments>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>tomcat-maven-plugin</artifactId>
-                <version>1.1</version>
-                <configuration>
-                    <port>${maven.tomcat.port}</port>
-                    <path>/</path>
-                    <systemProperties>
-                        <net.sf.ehcache.skipUpdateCheck>true</net.sf.ehcache.skipUpdateCheck>
-                        <tapestry.production-mode>false</tapestry.production-mode>
-                    </systemProperties>
-                    <contextFile>${project.build.outputDirectory}/context.xml</contextFile>
                 </configuration>
             </plugin>
             <plugin>
@@ -225,7 +220,7 @@
             <build>
                 <resources>
                     <resource>
-                        <directory>src/main/configuration/TOMCAT</directory>
+                        <directory>src/main/configuration/tomcat</directory>
                         <filtering>true</filtering>
                     </resource>
                 </resources>
@@ -257,10 +252,59 @@
                 <environment-file>src/main/environments/default/environment.properties</environment-file>
                 <database.url>jdbc:h2:file:/tmp/integrationtest;MODE=MySQL</database.url>
                 <database.login>sa</database.login>
-                <database.password />
+                <database.password/>
                 <database.driver>org.h2.Driver</database.driver>
                 <database.dialect>org.hibernate.dialect.H2Dialect</database.dialect>
             </properties>
+        </profile>
+        <profile>
+            <id>tomcat</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>${org.apache.maven.plugins.tomcat.version}</version>
+                        <configuration>
+                            <contextFile>${basedir}/src/main/configuration/tomcat/context.xml</contextFile>
+                            <tomcatUsers>${basedir}/src/main/configuration/tomcat/tomcat-users.xml</tomcatUsers>
+                            <path>/</path>
+                            <systemProperties>
+                                <conf.dir>${basedir}/src/main/configuration/TOMCAT</conf.dir>
+                                <file.encoding>${project.build.sourceEncoding}</file.encoding>
+                                <javax.xml.transform.TransformerFactory>
+                                    org.apache.xalan.xsltc.trax.TransformerFactoryImpl
+                                </javax.xml.transform.TransformerFactory>
+                                <log4j.configuration>file:${basedir}/src/main/configuration/TOMCAT/log4j.xml
+                                </log4j.configuration>
+                                <tapestry.execution-mode>DevelopmentMode</tapestry.execution-mode>
+                                <tapestry.production-mode>false</tapestry.production-mode>
+                            </systemProperties>
+                            <additionalClasspathDirs>
+                                <additionalClasspathDir>${basedir}/src/main/configuration/TOMCAT
+                                </additionalClasspathDir>
+                            </additionalClasspathDirs>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>junit</groupId>
+                                <artifactId>junit</artifactId>
+                                <version>${junit.version}</version>
+                                <scope>runtime</scope>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/src/main/resources</directory>
+                    </resource>
+                </resources>
+            </build>
         </profile>
     </profiles>
 

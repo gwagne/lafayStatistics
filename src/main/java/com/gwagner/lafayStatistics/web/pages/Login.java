@@ -1,4 +1,4 @@
-package com.gwagner.lafayStatistics.pages;
+package com.gwagner.lafayStatistics.web.pages;
 
 import org.apache.tapestry5.annotations.Property;
 

@@ -1,6 +1,6 @@
-package com.gwagner.lafayStatistics.services;
+package com.gwagner.lafayStatistics.web.services;
 
-import com.gwagner.lafayStatistics.services.config.LafayStatisticsExternalConfiguration;
+import com.gwagner.lafayStatistics.web.services.config.LafayStatisticsExternalConfiguration;
 import org.apache.tapestry5.ComponentParameterConstants;
 import org.apache.tapestry5.MetaDataConstants;
 import org.apache.tapestry5.SymbolConstants;
@@ -18,7 +18,7 @@ import org.apache.tapestry5.services.*;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class LagayStatisticsModule {
+public class LafayStatisticsModule {
 
 
     public static void bind(ServiceBinder binder) {

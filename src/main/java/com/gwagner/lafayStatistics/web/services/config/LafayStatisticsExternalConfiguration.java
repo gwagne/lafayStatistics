@@ -1,4 +1,4 @@
-package com.gwagner.lafayStatistics.services.config;
+package com.gwagner.lafayStatistics.web.services.config;
 
 import org.apache.tapestry5.ioc.internal.services.MapSymbolProvider;
 

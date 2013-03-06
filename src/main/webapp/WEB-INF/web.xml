@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+        PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+    <display-name>cautions</display-name>
+
+    <!-- duree de la session -->
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
+    <context-param>
+        <param-name>tapestry.app-package</param-name>
+        <param-value>com.gwagner.lafayStatistics.web</param-value>
+    </context-param>
+    <context-param>
+        <param-name>tapestry.development-modules</param-name>
+        <param-value>
+            com.gwagner.lafayStatistics.web.services.LafayStatisticsModule
+        </param-value>
+    </context-param>
+
+
+
+
+</web-app>
+
